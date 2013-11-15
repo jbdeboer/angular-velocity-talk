@@ -2,7 +2,7 @@
 <div><span class="hint"></span>
 </div>
 </h1>
-<div><div class="developer-guide-page developer-guide-overview-page"><h2>What Is Angular?</h1>
+<div><div class="developer-guide-page developer-guide-overview-page"><h2 id="what-is-angular">What Is Angular?</h2>
 <p>AngularJS is a structural framework for dynamic web apps. It lets you use HTML as your template
 language and lets you extend HTML&#39;s syntax to express your application&#39;s components clearly and
 succinctly. Out of the box, it eliminates much of the code you currently write through data
@@ -30,7 +30,7 @@ browser new syntax through a construct we call directives. Examples include:</p>
 <li>Attaching code-behind to DOM elements.</li>
 <li>Grouping of HTML into reusable components.</li>
 </ul>
-<h3>A complete client-side solution</h2>
+<h3 id="what-is-angular_a-complete-client-side-solution">A complete client-side solution</h3>
 <p>Angular is not a single piece in the overall puzzle of building the client-side of a web
 application. It handles all of the DOM and AJAX glue code you once wrote by hand and puts it in a
 well-defined structure. This makes Angular opinionated about how a CRUD application should be
@@ -42,7 +42,7 @@ directives, form validation, routing, deep-linking, reusable components, depende
 <li>Testability story: unit-testing, end-to-end testing, mocks, test harnesses.</li>
 <li>Seed application with directory layout and test scripts as a starting point.</li>
 </ul>
-<h2>Angular Sweet Spot</h2>
+<h3 id="what-is-angular_angular-sweet-spot">Angular Sweet Spot</h3>
 <p>Angular simplifies application development by presenting a higher level of abstraction to the
 developer. Like any abstraction, it comes at a cost of flexibility. In other words not every app
 is a good fit for Angular. Angular was built for the CRUD application in mind. Luckily CRUD
@@ -51,7 +51,7 @@ good at one also has to understand when an app is not a good fit for Angular.</p
 <p>Games and GUI editors are examples of applications with intensive and tricky DOM manipulation.
 These kinds of apps are different from CRUD apps, and as a result are probably not a good fit for Angular.
 In these cases it may be better to use a library with a lower level of abstraction, such as <code>jQuery</code>.</p>
-<h1>An Introductory Angular Example</h1>
+<h2 id="an-introductory-angular-example">An Introductory Angular Example</h2>
 <p>Below is a typical CRUD application which contains a form. The form values are validated, and
 are used to compute the total, which is formatted to a particular locale. These are some common
 concepts which the application developer may face:</p>
@@ -61,11 +61,11 @@ concepts which the application developer may face:</p>
 <li>computing new values based on the model.</li>
 <li>formatting output in a user specific locale.</li>
 </ul>
-<h2>Source</h2>
-<div source-edit="" source-edit-deps="angular.js script.js" source-edit-html="index.html-239" source-edit-css="" source-edit-js="script.js-238" source-edit-json="" source-edit-unit="" source-edit-scenario="scenario.js-240"></div>
+<h3 id="an-introductory-angular-example_source">Source</h3>
+<div source-edit="" source-edit-deps="angular.js script.js" source-edit-html="index.html-196" source-edit-css="" source-edit-js="script.js-195" source-edit-json="" source-edit-unit="" source-edit-scenario="scenario.js-197"></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-239" ng-html-wrap=" angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-239">
+<pre class="prettyprint linenums" ng-set-text="index.html-196" ng-html-wrap=" angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-196">
     <div ng-controller="InvoiceCntl">
       <b>Invoice:</b>
       <br>
@@ -83,8 +83,8 @@ concepts which the application developer may face:</p>
   </script>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-238"></pre>
-<script type="text/ng-template" id="script.js-238">
+<pre class="prettyprint linenums" ng-set-text="script.js-195"></pre>
+<script type="text/ng-template" id="script.js-195">
     function InvoiceCntl($scope) {
       $scope.qty = 1;
       $scope.cost = 19.95;
@@ -92,9 +92,9 @@ concepts which the application developer may face:</p>
   </script>
 </div>
 <div class="tab-pane" title="End to end test">
-<pre class="prettyprint linenums" ng-set-text="scenario.js-240"></pre>
-<script type="text/ng-template" id="scenario.js-240">
-    it('should show of angular binding', function() {
+<pre class="prettyprint linenums" ng-set-text="scenario.js-197"></pre>
+<script type="text/ng-template" id="scenario.js-197">
+    it('should show off angular binding', function() {
       expect(binding('qty * cost')).toEqual('$19.95');
       input('qty').enter('2');
       input('cost').enter('5.00');
@@ -102,8 +102,8 @@ concepts which the application developer may face:</p>
     });
   </script>
 </div>
-</div><h2>Demo</h3>
-<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-239" ng-eval-javascript="script.js-238"></div>
+</div><h3 id="an-introductory-angular-example_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-196" ng-eval-javascript="script.js-195"></div>
 <p>Try out the Live Preview above, and then let&#39;s walk through the example and describe what&#39;s going
 on.</p>
 <p>In the <code>&lt;html&gt;</code> tag, we specify that it is an Angular
@@ -135,10 +135,10 @@ got from the input widgets to the display, multiply them together, and format th
 into output that looks like money.&quot;</p>
 <p>Notice that we achieved this application behavior not by calling Angular methods, nor by
 implementing application specific behavior as a framework. We achieved the behavior because the
-browser behaved more in line with what is needed for a dynamic web application rather then what is
+browser behaved more in line with what is needed for a dynamic web application rather than what is
 needed for a static document. Angular has lowered the impedance mismatch to the point where no
 library/framework calls are needed.</p>
-<h1>The Zen of Angular</h1>
+<h2 id="the-zen-of-angular">The Zen of Angular</h2>
 <p>Angular is built around the belief that declarative code is better than imperative when it comes
 to building UIs and wiring software components together, while imperative code is excellent for
 expressing business logic.</p>
@@ -176,6 +176,6 @@ your app easily using services, which are auto-injected into your application in
 to get started developing features quickly. As a bonus, you get full control over the
 initialization process in automated tests.</li>
 </ul>
-<h1>Watch a Presentation About Angular</h2>
+<h2 id="watch-a-presentation-about-angular">Watch a Presentation About Angular</h2>
 <p>Here is a presentation on Angular from May 2012. The <a href="http://mhevery.github.io/angular-demo-slides/index.html#/list">corresponding slides</a> are also available.</p>
 <iframe width="560" height="315" src="http://www.youtube.com/embed/bfrn5VNpwsg" frameborder="0" allowfullscreen></iframe></div></div>

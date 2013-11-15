@@ -2,7 +2,7 @@
 <div><span class="hint"></span>
 </div>
 </h1>
-<div><div class="conceptual-overview-page"><h2>Overview</h1>
+<div><div class="conceptual-overview-page"><h2 id="overview">Overview</h2>
 <p>This document gives a quick overview of the main angular components and how they work together.
 These are:</p>
 <ul>
@@ -19,7 +19,7 @@ These are:</p>
 <li><a href="guide/concepts#angular_namespace"><code>$</code></a> - angular namespace</li>
 </ul>
 <p><a name="startup"></a></p>
-<h1>Startup</h1>
+<h2 id="startup">Startup</h2>
 <p>This is how we get the ball rolling (refer to the diagram and example below):</p>
 <p><img class="pull-right" style="padding-left: 3em;" src="img/guide/concepts-startup.png"></p>
 <ol>
@@ -37,116 +37,105 @@ it   with <a href="api/ng.$rootScope"><code>$rootScope</code></a></li>
 <li>The <code>{{name}}</code> <a href="api/ng.$interpolate"><code>interpolates</code></a> the expression to
 <code>Hello World!</code></li>
 </ol>
-<div class="clear">
-</div>
-<h3>Source</h2>
-<div source-edit="" source-edit-deps="angular.js" source-edit-html="index.html-181" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<h3 id="startup_source">Source</h3>
+<div source-edit="" source-edit-deps="angular.js" source-edit-html="index.html-233" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-181" ng-html-wrap=" angular.js"></pre>
-<script type="text/ng-template" id="index.html-181">
+<pre class="prettyprint linenums" ng-set-text="index.html-233" ng-html-wrap=" angular.js"></pre>
+<script type="text/ng-template" id="index.html-233">
     <p ng-init=" name='World' ">Hello {{name}}!</p>
   </script>
 </div>
-</div><h2>Demo</h2>
-<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-181" ng-eval-javascript=""></div>
-
-
-<a name="runtime"></a>
-# Runtime
-
-<img class="pull-right" style="padding-left: 3em; padding-bottom: 1em;" src="img/guide/concepts-runtime.png">
-
-The diagram and the example below describe how Angular interacts with the browser&#39;s event loop.
-
-  1. The browser&#39;s event-loop waits for an event to arrive. An event is a user interaction, timer event,
-     or network event (response from a server).
-  2. The event&#39;s callback gets executed. This enters the JavaScript context. The callback can
-      modify the DOM structure.
-  3. Once the callback executes, the browser leaves the JavaScript context and
-     re-renders the view based on DOM changes.
-
-Angular modifies the normal JavaScript flow by providing its own event processing loop. This
+</div><h3 id="startup_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-233" ng-eval-javascript=""></div>
+<p><a name="runtime"></a></p>
+<h2 id="runtime">Runtime</h2>
+<p><img class="pull-right" style="padding-left: 3em; padding-bottom: 1em;" src="img/guide/concepts-runtime.png"></p>
+<p>The diagram and the example below describe how Angular interacts with the browser&#39;s event loop.</p>
+<ol>
+<li>The browser&#39;s event-loop waits for an event to arrive. An event is a user interaction, timer event,
+or network event (response from a server).</li>
+<li>The event&#39;s callback gets executed. This enters the JavaScript context. The callback can
+ modify the DOM structure.</li>
+<li>Once the callback executes, the browser leaves the JavaScript context and
+re-renders the view based on DOM changes.</li>
+</ol>
+<p>Angular modifies the normal JavaScript flow by providing its own event processing loop. This
 splits the JavaScript into classical and Angular execution context. Only operations which are
 applied in Angular execution context will benefit from Angular data-binding, exception handling,
 property watching, etc... You can also use $apply() to enter Angular execution context from JavaScript. Keep in
 mind that in most places (controllers, services) $apply has already been called for you by the
 directive which is handling the event. An explicit call to $apply is needed only when
-implementing custom event callbacks, or when working with third-party library callbacks.
-
-  1. Enter Angular execution context by calling <a href="guide/scope">scope</a><code>.</code><a href="api/ng.$rootScope.Scope#$apply"><code>$apply</code></a><code>(stimulusFn)</code>. Where <code>stimulusFn</code> is
-     the work you wish to do in Angular execution context.
-  2. Angular executes the <code>stimulusFn()</code>, which typically modifies application state.
-  3. Angular enters the <a href="api/ng.$rootScope.Scope#$digest"><code>$digest</code></a> loop. The
-     loop is made up of two smaller loops which process <a href="api/ng.$rootScope.Scope#$evalAsync"><code>$evalAsync</code></a> queue and the <a href="api/ng.$rootScope.Scope#$watch"><code>$watch</code></a> list. The <a href="api/ng.$rootScope.Scope#$digest"><code>$digest</code></a> loop keeps iterating until the model
-     stabilizes, which means that the <a href="api/ng.$rootScope.Scope#$evalAsync"><code>$evalAsync</code></a> queue is empty and the <a href="api/ng.$rootScope.Scope#$watch"><code>$watch</code></a> list does not detect any changes.
-  4. The <a href="api/ng.$rootScope.Scope#$evalAsync"><code>$evalAsync</code></a> queue is used to
-     schedule work which needs to occur outside of current stack frame, but before the browser&#39;s
-     view render. This is usually done with <code>setTimeout(0)</code>, but the <code>setTimeout(0)</code> approach
-     suffers from slowness and may cause view flickering since the browser renders the view after
-     each event.
-  5. The <a href="api/ng.$rootScope.Scope#$watch"><code>$watch</code></a> list is a set of expressions
-     which may have changed since last iteration. If a change is detected then the <code>$watch</code>
-     function is called which typically updates the DOM with the new value.
-  6. Once the Angular <a href="api/ng.$rootScope.Scope#$digest"><code>$digest</code></a> loop finishes
-     the execution leaves the Angular and JavaScript context. This is followed by the browser
-     re-rendering the DOM to reflect any changes.
-
-
-Here is the explanation of how the <code>Hello world</code> example achieves the data-binding effect when the
-user enters text into the text field.
-
-  1. During the compilation phase:
-     1. the <a href="api/ng.directive:ngModel"><code>ng-model</code></a> and <a href="api/ng.directive:input"><code>input</code></a> <a href="guide/directive">directive</a> set up a <code>keydown</code> listener on the <code>&lt;input&gt;</code> control.
-     2. the <a href="api/ng.$interpolate"><code>&#123;&#123;name&#125;&#125;</code></a> interpolation
-        sets up a <a href="api/ng.$rootScope.Scope#$watch"><code>$watch</code></a> to be notified of
-        <code>name</code> changes.
-  2. During the runtime phase:
-     1. Pressing an &#39;<code>X</code>&#39; key causes the browser to emit a <code>keydown</code> event on the input control.
-     2. The <a href="api/ng.directive:input"><code>input</code></a> directive
-        captures the change to the input&#39;s value and calls <a href="api/ng.$rootScope.Scope#$apply"><code>$apply</code></a><code>(&quot;name = &#39;X&#39;;&quot;)</code> to update the
-        application model inside the Angular execution context.
-     3. Angular applies the <code>name = &#39;X&#39;;</code> to the model.
-     4. The <a href="api/ng.$rootScope.Scope#$digest"><code>$digest</code></a> loop begins
-     5. The <a href="api/ng.$rootScope.Scope#$watch"><code>$watch</code></a> list detects a change
-        on the <code>name</code> property and notifies the <a href="api/ng.$interpolate"><code>&#123;&#123;name&#125;&#125;</code></a> interpolation, which in turn updates the DOM.
-     6. Angular exits the execution context, which in turn exits the <code>keydown</code> event and with it
-        the JavaScript execution context.
-     7. The browser re-renders the view with update text.
-
-<div class="clear">
-</div>
-<h2>Source</h2>
-<div source-edit="" source-edit-deps="angular.js" source-edit-html="index.html-182" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+implementing custom event callbacks, or when working with third-party library callbacks.</p>
+<ol>
+<li>Enter Angular execution context by calling <a href="guide/scope">scope</a><code>.</code><a href="api/ng.$rootScope.Scope#methods_$apply"><code>$apply</code></a><code>(stimulusFn)</code>. Where <code>stimulusFn</code> is
+the work you wish to do in Angular execution context.</li>
+<li>Angular executes the <code>stimulusFn()</code>, which typically modifies application state.</li>
+<li>Angular enters the <a href="api/ng.$rootScope.Scope#methods_$digest"><code>$digest</code></a> loop. The
+loop is made up of two smaller loops which process <a href="api/ng.$rootScope.Scope#methods_$evalasync"><code>$evalAsync</code></a> queue and the <a href="api/ng.$rootScope.Scope#methods_$watch"><code>$watch</code></a> list. The <a href="api/ng.$rootScope.Scope#methods_$digest"><code>$digest</code></a> loop keeps iterating until the model
+stabilizes, which means that the <a href="api/ng.$rootScope.Scope#methods_$evalasync"><code>$evalAsync</code></a> queue is empty and the <a href="api/ng.$rootScope.Scope#methods_$watch"><code>$watch</code></a> list does not detect any changes.</li>
+<li>The <a href="api/ng.$rootScope.Scope#methods_$evalasync"><code>$evalAsync</code></a> queue is used to
+schedule work which needs to occur outside of current stack frame, but before the browser&#39;s
+view render. This is usually done with <code>setTimeout(0)</code>, but the <code>setTimeout(0)</code> approach
+suffers from slowness and may cause view flickering since the browser renders the view after
+each event.</li>
+<li>The <a href="api/ng.$rootScope.Scope#methods_$watch"><code>$watch</code></a> list is a set of expressions
+which may have changed since last iteration. If a change is detected then the <code>$watch</code>
+function is called which typically updates the DOM with the new value.</li>
+<li>Once the Angular <a href="api/ng.$rootScope.Scope#methods_$digest"><code>$digest</code></a> loop finishes
+the execution leaves the Angular and JavaScript context. This is followed by the browser
+re-rendering the DOM to reflect any changes.</li>
+</ol>
+<p>Here is the explanation of how the <code>Hello world</code> example achieves the data-binding effect when the
+user enters text into the text field.</p>
+<ol>
+<li>During the compilation phase:<ol>
+<li>the <a href="api/ng.directive:ngModel"><code>ng-model</code></a> and <a href="api/ng.directive:input"><code>input</code></a> <a href="guide/directive">directive</a> set up a <code>keydown</code> listener on the <code>&lt;input&gt;</code> control.</li>
+<li>the <a href="api/ng.$interpolate"><code>&#123;&#123;name&#125;&#125;</code></a> interpolation
+sets up a <a href="api/ng.$rootScope.Scope#methods_$watch"><code>$watch</code></a> to be notified of
+<code>name</code> changes.</li>
+</ol>
+</li>
+<li>During the runtime phase:<ol>
+<li>Pressing an &#39;<code>X</code>&#39; key causes the browser to emit a <code>keydown</code> event on the input control.</li>
+<li>The <a href="api/ng.directive:input"><code>input</code></a> directive
+captures the change to the input&#39;s value and calls <a href="api/ng.$rootScope.Scope#methods_$apply"><code>$apply</code></a><code>(&quot;name = &#39;X&#39;;&quot;)</code> to update the
+application model inside the Angular execution context.</li>
+<li>Angular applies the <code>name = &#39;X&#39;;</code> to the model.</li>
+<li>The <a href="api/ng.$rootScope.Scope#methods_$digest"><code>$digest</code></a> loop begins</li>
+<li>The <a href="api/ng.$rootScope.Scope#methods_$watch"><code>$watch</code></a> list detects a change
+on the <code>name</code> property and notifies the <a href="api/ng.$interpolate"><code>&#123;&#123;name&#125;&#125;</code></a> interpolation, which in turn updates the DOM.</li>
+<li>Angular exits the execution context, which in turn exits the <code>keydown</code> event and with it
+the JavaScript execution context.</li>
+<li>The browser re-renders the view with update text.</li>
+</ol>
+</li>
+</ol>
+<h3 id="runtime_source">Source</h3>
+<div source-edit="" source-edit-deps="angular.js" source-edit-html="index.html-234" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-182" ng-html-wrap=" angular.js"></pre>
-<script type="text/ng-template" id="index.html-182">
+<pre class="prettyprint linenums" ng-set-text="index.html-234" ng-html-wrap=" angular.js"></pre>
+<script type="text/ng-template" id="index.html-234">
     <input ng-model="name">
     <p>Hello {{name}}!</p>
   </script>
 </div>
-</div><h2>Demo</h2>
-<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-182" ng-eval-javascript=""></div>
-
-<a name="scope"></a>
-#Scope
-
-The <a href="guide/scope">scope</a> is responsible for detecting changes to the model section and
+</div><h3 id="runtime_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-234" ng-eval-javascript=""></div>
+<p><a name="scope"></a></p>
+<h2 id="scope">Scope</h2>
+<p>The <a href="guide/scope">scope</a> is responsible for detecting changes to the model section and
 provides the execution context for expressions. The scopes are nested in a hierarchical structure
 which closely follow the DOM structure. (See individual directive documentation to see which
-directives cause a creation of new scopes.)
-
-The following example demonstrates how the <code>name</code> <a href="guide/expression">expression</a> will evaluate
+directives cause a creation of new scopes.)</p>
+<p>The following example demonstrates how the <code>name</code> <a href="guide/expression">expression</a> will evaluate
 into a different value depending on which scope it is evaluated in. The example is followed by
-a diagram depicting the scope boundaries.
-
-<div class="clear">
-</div>
+a diagram depicting the scope boundaries.</p>
 <div class="show-scope">
-<h2>Source</h2>
-<div source-edit="" source-edit-deps="angular.js script.js" source-edit-html="index.html-183" source-edit-css="style.css-185" source-edit-js="script.js-184" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<h3 id="scope_source">Source</h3>
+<div source-edit="" source-edit-deps="angular.js script.js" source-edit-html="index.html-235" source-edit-css="style.css-237" source-edit-js="script.js-236" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-183" ng-html-wrap=" angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-183">
+<pre class="prettyprint linenums" ng-set-text="index.html-235" ng-html-wrap=" angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-235">
     <div ng-controller="GreetCtrl">
       Hello {{name}}!
     </div>
@@ -158,8 +147,8 @@ a diagram depicting the scope boundaries.
   </script>
 </div>
 <div class="tab-pane" title="style.css">
-<pre class="prettyprint linenums" ng-set-text="style.css-185"></pre>
-<style type="text/css" id="style.css-185">
+<pre class="prettyprint linenums" ng-set-text="style.css-237"></pre>
+<style type="text/css" id="style.css-237">
     .show-scope .doc-example-live.ng-scope,
     .show-scope .doc-example-live .ng-scope  {
       border: 1px solid red;
@@ -168,8 +157,8 @@ a diagram depicting the scope boundaries.
   </style>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-184"></pre>
-<script type="text/ng-template" id="script.js-184">
+<pre class="prettyprint linenums" ng-set-text="script.js-236"></pre>
+<script type="text/ng-template" id="script.js-236">
     function GreetCtrl($scope) {
       $scope.name = 'World';
     }
@@ -179,13 +168,13 @@ a diagram depicting the scope boundaries.
     }
   </script>
 </div>
-</div><h2>Demo</h2>
-<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-183" ng-eval-javascript="script.js-184"></div>
+</div><h3 id="scope_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-235" ng-eval-javascript="script.js-236"></div>
 </div>
 
 <p><img class="center" src="img/guide/concepts-scope.png"></p>
 <p><a name="controller"></a></p>
-<h1>Controller</h1>
+<h2 id="controller">Controller</h2>
 <p><img class="pull-right" style="padding-left: 3em; padding-bottom: 1em;" src="img/guide/concepts-controller.png"></p>
 <p>A controller is the code behind the view. Its job is to construct the model and publish it to the
 view along with callback methods. The view is a projection of the scope onto the template (the
@@ -202,13 +191,11 @@ specifying UI. The View should not contain any behavior.</li>
 controller. This is important for re-skinning, device specific views (i.e. mobile vs desktop),
 and testability.</li>
 </ul>
-<div class="clear">
-</div>
-<h2>Source</h2>
-<div source-edit="" source-edit-deps="angular.js script.js" source-edit-html="index.html-186" source-edit-css="" source-edit-js="script.js-187" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<h3 id="controller_source">Source</h3>
+<div source-edit="" source-edit-deps="angular.js script.js" source-edit-html="index.html-238" source-edit-css="" source-edit-js="script.js-239" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-186" ng-html-wrap=" angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-186">
+<pre class="prettyprint linenums" ng-set-text="index.html-238" ng-html-wrap=" angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-238">
     <div ng-controller="MyCtrl">
       Hello {{name}}!
       <button ng-click="action()">
@@ -218,8 +205,8 @@ and testability.</li>
   </script>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-187"></pre>
-<script type="text/ng-template" id="script.js-187">
+<pre class="prettyprint linenums" ng-set-text="script.js-239"></pre>
+<script type="text/ng-template" id="script.js-239">
     function MyCtrl($scope) {
       $scope.action = function() {
         $scope.name = 'OK';
@@ -229,28 +216,18 @@ and testability.</li>
     }
   </script>
 </div>
-</div><h2>Demo</h2>
-<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-186" ng-eval-javascript="script.js-187"></div>
-
-
-<a name="model"></a>
-# Model
-
-<img class="pull-right" style="padding-left: 3em; padding-bottom: 1em;" src="img/guide/concepts-model.png">
-
-The model is the data which is merged with the template to produce the view. To be able to
+</div><h3 id="controller_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-238" ng-eval-javascript="script.js-239"></div>
+<p><a name="model"></a></p>
+<h2 id="model">Model</h2>
+<p><img class="pull-right" style="padding-left: 3em; padding-bottom: 1em;" src="img/guide/concepts-model.png"></p>
+<p>The model is the data which is merged with the template to produce the view. To be able to
 render the model into the view, the model has to be able to be referenced from the scope. Unlike many
 other frameworks Angular makes no restrictions or requirements on the model. There are no classes
 to inherit from or special accessor methods for accessing or changing the model. The model can be
-primitive, object hash, or a full object Type. In short the model is a plain JavaScript object.
-
-
-<div class="clear">
-</div>
-
-
+primitive, object hash, or a full object Type. In short the model is a plain JavaScript object.</p>
 <p><a name="view"></a></p>
-<h1>View</h1>
+<h2 id="view">View</h2>
 <p><img class="pull-right" style="padding-left: 3em; padding-bottom: 1em;" src="img/guide/concepts-view.png"></p>
 <p>The view is what the user sees. The view begins its life as a template, is merged with the
 model and finally rendered into the browser DOM. Angular takes a very different approach to
@@ -268,18 +245,15 @@ strings.</li>
 strings. The template is still written in an HTML string, but it is HTML (not HTML with
 template sprinkled in.) The browser parses the HTML into the DOM, and the DOM becomes the input to
 the template engine known as the <a href="api/ng.$compile"><code>compiler</code></a>. The compiler
-looks for <a href="guide/directive">directives</a> which in turn set up <a href="api/ng.$rootScope.Scope#$watch"><code>watches</code></a> on the model. The result is a
+looks for <a href="guide/directive">directives</a> which in turn set up <a href="api/ng.$rootScope.Scope#methods_$watch"><code>watches</code></a> on the model. The result is a
 continuously updating view which does not need template model re-merging. Your model becomes
 the single source-of-truth for your view.</li>
 </ul>
-<div class="clear">
-</div>
-
-<h2>Source</h2>
-<div source-edit="" source-edit-deps="angular.js" source-edit-html="index.html-188" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<h3 id="view_source">Source</h3>
+<div source-edit="" source-edit-deps="angular.js" source-edit-html="index.html-240" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-188" ng-html-wrap=" angular.js"></pre>
-<script type="text/ng-template" id="index.html-188">
+<pre class="prettyprint linenums" ng-set-text="index.html-240" ng-html-wrap=" angular.js"></pre>
+<script type="text/ng-template" id="index.html-240">
     <div ng-init="list = ['Chrome', 'Safari', 'Firefox', 'IE'] ">
       <input ng-model="list" ng-list> <br>
       <input ng-model="list" ng-list> <br>
@@ -292,26 +266,26 @@ the single source-of-truth for your view.</li>
     </div>
   </script>
 </div>
-</div><h2>Demo</h2>
-<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-188" ng-eval-javascript=""></div>
+</div><h3 id="view_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-240" ng-eval-javascript=""></div>
 <p><a name="directives"></a></p>
-<h1>Directives</h1>
+<h2 id="directives">Directives</h2>
 <p>A directive is a behavior or DOM transformation which is triggered by the presence of a custom attribute,
 element name, class name or comment. A directive allows you to extend the HTML vocabulary in a
 declarative fashion. Following is an example which enables data-binding for the <code>contenteditable</code>
 in HTML.</p>
-<h2>Source</h2>
-<div source-edit="directive" source-edit-deps="angular.js script.js" source-edit-html="index.html-190" source-edit-css="style.css-191" source-edit-js="script.js-189" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<h3 id="directives_source">Source</h3>
+<div source-edit="directive" source-edit-deps="angular.js script.js" source-edit-html="index.html-242" source-edit-css="style.css-243" source-edit-js="script.js-241" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-190" ng-html-wrap="directive angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-190">
+<pre class="prettyprint linenums" ng-set-text="index.html-242" ng-html-wrap="directive angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-242">
     <div contentEditable="true" ng-model="content">Edit Me</div>
     <pre>model = {{content}}</pre>
   </script>
 </div>
 <div class="tab-pane" title="style.css">
-<pre class="prettyprint linenums" ng-set-text="style.css-191"></pre>
-<style type="text/css" id="style.css-191">
+<pre class="prettyprint linenums" ng-set-text="style.css-243"></pre>
+<style type="text/css" id="style.css-243">
     div[contentEditable] {
       cursor: pointer;
       background-color: #D0D0D0;
@@ -321,8 +295,8 @@ in HTML.</p>
   </style>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-189"></pre>
-<script type="text/ng-template" id="script.js-189">
+<pre class="prettyprint linenums" ng-set-text="script.js-241"></pre>
+<script type="text/ng-template" id="script.js-241">
     angular.module('directive', []).directive('contenteditable', function() {
       return {
         require: 'ngModel',
@@ -346,18 +320,18 @@ in HTML.</p>
     });
   </script>
 </div>
-</div><h2>Demo</h2>
-<div class="well doc-example-live animate-container" ng-embed-app="directive" ng-set-html="index.html-190" ng-eval-javascript="script.js-189"></div>
+</div><h3 id="directives_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="directive" ng-set-html="index.html-242" ng-eval-javascript="script.js-241"></div>
 <p><a name="filters"></a></p>
-<h1>Filters</h1>
+<h2 id="filters">Filters</h2>
 <p><a href="api/ng.$filter"><code>Filters</code></a> perform data transformation. Typically
 they are used in conjunction with the locale to format the data in locale specific output.
 They follow the spirit of UNIX filters and use similar syntax <code>|</code> (pipe).</p>
-<h2>Source</h2>
-<div source-edit="" source-edit-deps="angular.js" source-edit-html="index.html-192" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<h3 id="filters_source">Source</h3>
+<div source-edit="" source-edit-deps="angular.js" source-edit-html="index.html-244" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-192" ng-html-wrap=" angular.js"></pre>
-<script type="text/ng-template" id="index.html-192">
+<pre class="prettyprint linenums" ng-set-text="index.html-244" ng-html-wrap=" angular.js"></pre>
+<script type="text/ng-template" id="index.html-244">
     <div ng-init="list = ['Chrome', 'Safari', 'Firefox', 'IE'] ">
       Number formatting: {{ 1234567890 | number }} <br>
       array filtering <input ng-model="predicate">
@@ -365,11 +339,11 @@ They follow the spirit of UNIX filters and use similar syntax <code>|</code> (pi
     </div>
   </script>
 </div>
-</div><h2>Demo</h2>
-<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-192" ng-eval-javascript=""></div>
+</div><h3 id="filters_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-244" ng-eval-javascript=""></div>
 <p><a name="module"></a>
 <a name="injector"></a></p>
-<h1>Modules and the Injector</h1>
+<h2 id="modules-and-the-injector">Modules and the Injector</h2>
 <p><img class="pull-right" style="padding-left: 3em; padding-bottom: 1em;" src="img/guide/concepts-module-injector.png"></p>
 <p>The <a href="api/AUTO.$injector"><code>injector</code></a> is a service locator. There is a single
 <a href="api/AUTO.$injector"><code>injector</code></a> per Angular <a href="api/ng.directive:ngApp"><code>application</code></a>. The <a href="api/AUTO.$injector"><code>injector</code></a> provides a way to look up an object instance by its
@@ -377,8 +351,6 @@ name. The injector keeps an internal cache of all objects so that repeated calls
 object name result in the same instance. If the object does not exist, then the <a href="api/AUTO.$injector"><code>injector</code></a> asks the instance factory to create a new instance.</p>
 <p>A <a href="api/angular.Module"><code>module</code></a> is a way to configure the injector&#39;s instance factory, known
 as a <a href="api/AUTO.$provide"><code>provider</code></a>.</p>
-<p><div class='clear'>
-</div>
 <pre class="prettyprint linenums">
   // Create a module
   var myModule = angular.module('myModule', [])
@@ -400,7 +372,7 @@ as a <a href="api/AUTO.$provide"><code>provider</code></a>.</p>
   $injector.get('serviceA') === $injector.get('serviceA');
 </pre>
 <p>But the real magic of the <a href="api/AUTO.$injector"><code>injector</code></a> is that it can be
-used to <a href="api/AUTO.$injector#invoke"><code>call</code></a> methods and <a href="api/AUTO.$injector#instantiate"><code>instantiate</code></a> types. This subtle feature is what
+used to <a href="api/AUTO.$injector#methods_invoke"><code>call</code></a> methods and <a href="api/AUTO.$injector#methods_instantiate"><code>instantiate</code></a> types. This subtle feature is what
 allows the methods and types to ask for their dependencies instead of having to look for them.</p>
 <pre class="prettyprint linenums">
   // You write functions such as this one.
@@ -425,25 +397,25 @@ allows the methods and types to ask for their dependencies instead of having to 
   $injector.invoke(doSomething); // This is how the framework calls your functions
 </pre>
 <p>Notice that the only thing you needed to write was the function, and list the dependencies in the
-function arguments. When angular calls the function, it will use the <a href="api/AUTO.$injector#invoke"><code>call</code></a> which will automatically fill the function
+function arguments. When angular calls the function, it will use the <a href="api/AUTO.$injector#methods_invoke"><code>call</code></a> which will automatically fill the function
 arguments.</p>
 <p>Examine the <code>ClockCtrl</code> below, and notice how it lists the dependencies in the constructor. When the
 <a href="api/ng.directive:ngController"><code>ng-controller</code></a> instantiates
 the controller it automatically provides the dependencies. There is no need to create
 dependencies, look for dependencies, or even get a reference to the injector.</p>
-<h2>Source</h2>
-<div source-edit="timeExampleModule" source-edit-deps="angular.js script.js" source-edit-html="index.html-193" source-edit-css="" source-edit-js="script.js-194" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<h3 id="modules-and-the-injector_source">Source</h3>
+<div source-edit="timeExampleModule" source-edit-deps="angular.js script.js" source-edit-html="index.html-245" source-edit-css="" source-edit-js="script.js-246" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-193" ng-html-wrap="timeExampleModule angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-193">
+<pre class="prettyprint linenums" ng-set-text="index.html-245" ng-html-wrap="timeExampleModule angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-245">
     <div ng-controller="ClockCtrl">
       Current time is: {{ time.now }}
     </div>
   </script>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-194"></pre>
-<script type="text/ng-template" id="script.js-194">
+<pre class="prettyprint linenums" ng-set-text="script.js-246"></pre>
+<script type="text/ng-template" id="script.js-246">
     angular.module('timeExampleModule', []).
       // Declare new object called time,
       // which will be available for injection
@@ -464,10 +436,10 @@ dependencies, look for dependencies, or even get a reference to the injector.</p
     }
   </script>
 </div>
-</div><h2>Demo</h3>
-<div class="well doc-example-live animate-container" ng-embed-app="timeExampleModule" ng-set-html="index.html-193" ng-eval-javascript="script.js-194"></div>
+</div><h3 id="modules-and-the-injector_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="timeExampleModule" ng-set-html="index.html-245" ng-eval-javascript="script.js-246"></div>
 <p><a name="angular_namespace"></a></p>
-<h1>Angular Namespace</h2>
+<h2 id="angular-namespace">Angular Namespace</h2>
 <p>To prevent accidental name collision, Angular prefixes names of objects which could potentially
 collide with <code>$</code>. Please do not use the <code>$</code> prefix in your code as it may accidentally collide
 with Angular code.</p>

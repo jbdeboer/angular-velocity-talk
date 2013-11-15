@@ -6,7 +6,7 @@
 comes with almost no help from the compiler. For this reason we feel very strongly that any code
 written in JavaScript needs to come with a strong set of tests. We have built many features into
 Angular which makes testing your Angular applications easy. So there is no excuse for not testing.</p>
-<h2>It is all about NOT mixing concerns</h2>
+<h2 id="it-is-all-about-not-mixing-concerns">It is all about NOT mixing concerns</h2>
 <p>Unit testing as the name implies is about testing individual units of code. Unit tests try to
 answer questions such as &quot;Did I think about the logic correctly?&quot; or &quot;Does the sort function order the list
 in the right order?&quot;</p>
@@ -25,11 +25,11 @@ it is easy to write a sort function which sorts some data, so that your test can
 apply the function, and assert that the resulting model is in the correct order. The test does not
 have to wait for XHR, or create the right kind of DOM, or assert that your function has mutated the
 DOM in the right way.</p>
-<h3>With great power comes great responsibility</h2>
+<h3 id="it-is-all-about-not-mixing-concerns_with-great-power-comes-great-responsibility">With great power comes great responsibility</h3>
 <p>Angular is written with testability in mind, but it still requires that you
 do the right thing. We tried to make the right thing easy, but Angular is not magic, which means if
 you don&#39;t follow these guidelines you may very well end up with an untestable application.</p>
-<h2>Dependency Injection</h2>
+<h3 id="it-is-all-about-not-mixing-concerns_dependency-injection">Dependency Injection</h3>
 <p>There are several ways in which you can get a hold of a dependency:
 1. You could create it using the <code>new</code> operator.
 2. You could look for it in a well known place, also known as global singleton.
@@ -37,7 +37,7 @@ you don&#39;t follow these guidelines you may very well end up with an untestabl
 the registry? Most likely by looking it up in a well known place. See #2)
 4. You could expect that it be handed to you.</p>
 <p>Out of the four options in the list above, only the last one is testable. Let&#39;s look at why:</p>
-<h4>Using the <code>new</code> operator</h3>
+<h4 id="it-is-all-about-not-mixing-concerns_dependency-injection_using-the-operator">Using the <code>new</code> operator</h4>
 <p>While there is nothing wrong with the <code>new</code> operator fundamentally the issue is that calling a new
 on a constructor permanently binds the call site to the type. For example lets say that we are
 trying to instantiate an <code>XHR</code> so that we can get some data from the server.</p>
@@ -64,7 +64,7 @@ myClass.doWork();
 // assert that MockXHR got called with the right arguments
 XHR = oldXHR; // if you forget this bad things will happen
 </pre>
-<h3>Global look-up:</h3>
+<h4 id="it-is-all-about-not-mixing-concerns_dependency-injection_global-look-up">Global look-up:</h4>
 <p>Another way to approach the problem is to look for the service in a well known location.</p>
 <pre class="prettyprint linenums">
 function MyClass() {
@@ -90,7 +90,7 @@ myClass.doWork();
 // assert that mockXHR got called with the right arguments
 global.xhr = oldXHR; // if you forget this bad things will happen
 </pre>
-<h3>Service Registry:</h3>
+<h4 id="it-is-all-about-not-mixing-concerns_dependency-injection_service-registry">Service Registry:</h4>
 <p>It may seem as that this can be solved by having a registry for all of the services, and then
 having the tests replace the services as needed.</p>
 <pre class="prettyprint linenums">
@@ -118,7 +118,7 @@ myClass.doWork();
 // assert that mockXHR got called with the right arguments
 global.serviceLocator = oldServiceLocator; // if you forget this bad things will happen
 </pre>
-<h3>Passing in Dependencies:</h3>
+<h4 id="it-is-all-about-not-mixing-concerns_dependency-injection_passing-in-dependencies">Passing in Dependencies:</h4>
 <p>Lastly the dependency can be passed in.</p>
 <pre class="prettyprint linenums">
 function MyClass(xhr) {
@@ -144,7 +144,7 @@ myClass.doWork();
 <p>Notice that no global variables were harmed in the writing of this test.</p>
 <p>Angular comes with <a href="guide/di">dependency injection</a> built in which makes the right thing
 easy to do, but you still need to do it if you wish to take advantage of the testability story.</p>
-<h2>Controllers</h2>
+<h3 id="it-is-all-about-not-mixing-concerns_controllers">Controllers</h3>
 <p>What makes each application unique is its logic, which is what we would like to test. If the logic
 for your application is mixed in with DOM manipulation, it will be hard to test as in the example
 below:</p>
@@ -214,7 +214,7 @@ expect($scope.strength).toEqual('weak');
 </pre>
 <p>Notice that the test is not only much shorter but it is easier to follow what is going on. We say
 that such a test tells a story, rather then asserting random bits which don&#39;t seem to be related.</p>
-<h2>Filters</h2>
+<h3 id="it-is-all-about-not-mixing-concerns_filters">Filters</h3>
 <p><a href="api/ng.$filter"><code>Filters</code></a> are functions which transform the data into user readable
 format. They are important because they remove the formatting responsibility from the application
 logic, further simplifying the application logic.</p>
@@ -229,11 +229,11 @@ var length = $filter('length');
 expect(length(null)).toEqual(0);
 expect(length('abc')).toEqual(3);
 </pre>
-<h2>Directives</h2>
+<h3 id="it-is-all-about-not-mixing-concerns_directives">Directives</h3>
 <p>Directives in angular are responsible for encapsulating complex functionality within custom HTML tags,
 attributes, classes or comments. Unit tests are very important for directives because the components
 you create with directives may be used throughout your application and in many different contexts.</p>
-<h3>Simple HTML Element Directive</h4>
+<h4 id="it-is-all-about-not-mixing-concerns_directives_simple-html-element-directive">Simple HTML Element Directive</h4>
 <p>Lets start with an angular app with no dependencies.</p>
 <pre class="prettyprint linenums">
 var app = angular.module('myApp', []);
@@ -280,6 +280,6 @@ describe('Unit testing great quotes', function() {
 <p>We inject the $compile service and $rootScope before each jasmine test. The $compile service is used
 to render the aGreatEye directive. After rendering the directive we ensure that the directive has
 replaced the content and &quot;lidless, wreathed in flame, 2 times&quot; is present.</p>
-<h2>Sample project</h3>
+<h3 id="it-is-all-about-not-mixing-concerns_sample-project">Sample project</h3>
 <p>See the <a href="https://github.com/angular/angular-seed">angular-seed</a> project for an example.</p>
 </div></div>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html ng-app>
+<head>
+  <link rel="stylesheet" href="css/bootstrap.css">
+
+  <script src="lib/angular/angular.js"></script>
+  <script src="runtime.js"></script>
+
+  <style>
+    body {
+      margin: 1em;
+      font-size: 30px;
+      line-height: 36px;
+    }
+    li { line-height: 36px;}
+  </style>
+</head>
+
+<body ng-controller="RuntimeController">
+<div class="span5">
+  <div>
+    Size of Column: <b>{{leftDivInKB}}</b>
+  </div>
+  <div>
+    <button ng-click="xs = xs + 'X'">X Button</button>
+    {{ xs }}
+  </div>
+
+  <div>
+    <button ng-click="somethingNotRendered = 6">No effect</button>
+  </div>
+
+  <button ng-click="shown = !shown">Add / Remove A List</button>
+  <div ng-if="shown">
+    <ul>
+      <li ng-repeat="letter in letters">{{$index}}<b>{{letter}}</b></li>
+    </ul>
+  </div>
+</div>
+
+<div class="span5 offset2">
+  <div ng-click="ds = !ds">Total $digests: <b>{{!ds && $calls_$digest}}</b></div>
+  <div>Dirty check loops: <b ng-bind="$digestLoops"></b></div>
+  <div># of watchers: <b>{{$root.$numDigestWatchers}}</b></div>
+</div>
+</body>

@@ -1,12 +1,8 @@
-
 var express = require('express');
 
 var oneYear = 86400000 * 364;
 
-function slowness(req, res, next) {
-  setTimeout(function() { next(); }, 500);
-}
-
+// Production server with compression and caching enabled.
 var app = express()
     .use(express.logger('dev'))
     .use(express.compress())
@@ -16,3 +12,7 @@ var app = express()
     .listen(3000);
 
 console.log('Listening on http://localhost:3000/ for ' + __dirname);
+
+function slowness(req, res, next) {
+  setTimeout(function() { next(); }, 1700);
+}

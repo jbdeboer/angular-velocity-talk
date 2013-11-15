@@ -1,22 +1,22 @@
-<a href="http://github.com/angular/angular.js/tree/v1.2.0rc1/src/ngResource/resource.js#L21" class="view-source btn btn-action"><i class="icon-zoom-in"> </i> View source</a><a href="http://github.com/angular/angular.js/edit/master/src/ngResource/resource.js" class="improve-docs btn btn-primary"><i class="icon-edit"> </i> Improve this doc</a><h1><code ng:non-bindable="">$resource</code>
+<a href="http://github.com/angular/angular.js/tree/v1.2.0-rc.3/src/ngResource/resource.js#L21" class="view-source btn btn-action"><i class="icon-zoom-in"> </i> View source</a><a href="http://github.com/angular/angular.js/edit/master/src/ngResource/resource.js" class="improve-docs btn btn-primary"><i class="icon-edit"> </i> Improve this doc</a><h1><code ng:non-bindable="">$resource</code>
 <div><span class="hint">service in module <code ng:non-bindable="">ngResource</code>
 </span>
 </div>
 </h1>
-<div><h2 id="Description">Description</h2>
+<div><h2 id="description">Description</h2>
 <div class="description"><div class="ngresource-resource-page"><p>A factory which creates a resource object that lets you interact with
 <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">RESTful</a> server-side data sources.</p>
 <p>The returned resource object has action methods which provide high-level behaviors without
 the need to interact with the low level <a href="api/ng.$http"><code>$http</code></a> service.</p>
 <p>Requires the <a href="api/ngResource"><code>ngResource</code></a> module to be installed.</p>
 </div></div>
-<h2 id="Dependencies">Dependencies</h2>
+<h2 id="dependencies">Dependencies</h2>
 <ul class="dependencies"><li><code ng:non-bindable=""><a href="api/ng.$http">$http</a></code>
 </li>
 </ul>
-<h2 id="Usage">Usage</h2>
+<h2 id="usage">Usage</h2>
 <div class="usage"><pre class="prettyprint linenums">$resource(url[, paramDefaults][, actions]);</pre>
-<h4 id="parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>url</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="ngresource-resource-page"><p>A parametrized URL template with parameters prefixed by <code>:</code> as in
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>url</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="ngresource-resource-page"><p>A parametrized URL template with parameters prefixed by <code>:</code> as in
 <code>/user/:username</code>. If you are using a URL with a port number (e.g.
 <code>http://example.com:8080/api</code>), it will be respected.</p>
 <p>If you are using a url with a suffix, just add the suffix, like this:
@@ -35,7 +35,7 @@ URL <code>/path/greet?salutation=Hello</code>.</p>
 <p>If the parameter value is prefixed with <code>@</code> then the value of that parameter is extracted from
 the data object (useful for non-GET operations).</p>
 </div></td></tr><tr><td>actions <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object.&lt;Object&gt;</a></td><td><div class="ngresource-resource-page"><p>Hash with declaration of custom action that should extend the
-default set of resource actions. The declaration should be created in the format of <a href="api/ng.$http#Parameters"><code>$http.config</code></a>:</p>
+default set of resource actions. The declaration should be created in the format of <a href="api/ng.$http#usage_parameters"><code>$http.config</code></a>:</p>
 <pre><code>{action1: {method:?, params:?, isArray:?, headers:?, ...},
  action2: {method:?, params:?, isArray:?, headers:?, ...},
  ...}</code></pre>
@@ -64,14 +64,14 @@ GET request, otherwise if a cache instance built with
 caching.</li>
 <li><strong><code>timeout</code></strong> – <code>{number|Promise}</code> – timeout in milliseconds, or <a href="api/ng.$q"><code>promise</code></a> that
 should abort the request when resolved.</li>
-<li><strong><code>withCredentials</code></strong> - <code>{boolean}</code> - whether to to set the <code>withCredentials</code> flag on the
+<li><strong><code>withCredentials</code></strong> - <code>{boolean}</code> - whether to set the <code>withCredentials</code> flag on the
 XHR object. See <a href="https://developer.mozilla.org/en/http_access_control#section_5">requests with credentials</a> for more information.</li>
 <li><strong><code>responseType</code></strong> - <code>{string}</code> - see <a href="https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest#responseType">requestType</a>.</li>
 <li><strong><code>interceptor</code></strong> - <code>{Object=}</code> - The interceptor object has two optional methods -
 <code>response</code> and <code>responseError</code>. Both <code>response</code> and <code>responseError</code> interceptors get called
 with <code>http response</code> object. See <a href="api/ng.$http"><code>$http interceptors</code></a>.</li>
 </ul>
-</div></td></tr></tbody></table><h4 id="returns">Returns</h4><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="ngresource-resource-page"><p>A resource &quot;class&quot; object with methods for the default set of resource actions
+</div></td></tr></tbody></table><h4 id="usage_returns">Returns</h4><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="ngresource-resource-page"><p>A resource &quot;class&quot; object with methods for the default set of resource actions
 optionally extended with custom <code>actions</code>. The default set contains these actions:</p>
 <pre><code>{ &#39;get&#39;:    {method:&#39;GET&#39;},
   &#39;save&#39;:   {method:&#39;POST&#39;},
@@ -124,8 +124,8 @@ without the <code>resource</code> property.</p>
 </li>
 </ul>
 </div></td></tr></table></div>
-<h2 id="Example">Example</h2>
-<div class="example"><div class="ngresource-resource-page"><h3>Credit card resource</h1>
+<h2 id="example">Example</h2>
+<div class="example"><div class="ngresource-resource-page"><h3 id="example_credit-card-resource">Credit card resource</h3>
 <pre class="prettyprint linenums">
      // Define CreditCard class
      var CreditCard = $resource('/user/:userId/card/:cardId',
@@ -186,13 +186,13 @@ could rewrite the above example and get access to http headers as:</p>
        });
      });
    </pre>
-<h1>Buzz client</h1>
+<h3 id="example_buzz-client">Buzz client</h3>
 <p>   Let&#39;s look at what a buzz client created with the <code>$resource</code> service looks like:
-    <h4>Source</h2>
-<div source-edit="" source-edit-deps="angular.js script.js" source-edit-html="index.html-143" source-edit-css="" source-edit-js="script.js-142" source-edit-json="" source-edit-unit="" source-edit-scenario="scenario.js-144"></div>
+    <h4 id="example_buzz-client_source">Source</h4>
+<div source-edit="" source-edit-deps="angular.js script.js" source-edit-html="index.html-165" source-edit-css="" source-edit-js="script.js-164" source-edit-json="" source-edit-unit="" source-edit-scenario="scenario.js-166"></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-143" ng-html-wrap=" angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-143">
+<pre class="prettyprint linenums" ng-set-text="index.html-165" ng-html-wrap=" angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-165">
        
 
        <div ng-controller="BuzzController">
@@ -200,7 +200,7 @@ could rewrite the above example and get access to http headers as:</p>
          <button ng-click="fetch()">fetch</button>
          <hr/>
          <div ng-repeat="item in activities.data.items">
-           <h1 style="font-size: 15px;">
+           <h3 style="font-size: 15px;" id="example_-">
              <img src="{{item.actor.thumbnailUrl}}" style="max-height:30px;max-width:30px;"/>
              <a href="{{item.actor.profileUrl}}">{{item.actor.name}}</a>
              <a href ng-click="expandReplies(item)" style="float: right;">Expand replies: {{item.links.replies[0].count}}</a>
@@ -215,8 +215,8 @@ could rewrite the above example and get access to http headers as:</p>
       </script>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-142"></pre>
-<script type="text/ng-template" id="script.js-142">
+<pre class="prettyprint linenums" ng-set-text="script.js-164"></pre>
+<script type="text/ng-template" id="script.js-164">
          function BuzzController($resource) {
            this.userId = 'googlebuzz';
            this.Activity = $resource(
@@ -238,11 +238,11 @@ could rewrite the above example and get access to http headers as:</p>
        </script>
 </div>
 <div class="tab-pane" title="End to end test">
-<pre class="prettyprint linenums" ng-set-text="scenario.js-144"></pre>
-<script type="text/ng-template" id="scenario.js-144">
+<pre class="prettyprint linenums" ng-set-text="scenario.js-166"></pre>
+<script type="text/ng-template" id="scenario.js-166">
       </script>
 </div>
-</div><h2>Demo</h4>
-<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-143" ng-eval-javascript="script.js-142"></div>
+</div><h4 id="example_-_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="" ng-set-html="index.html-165" ng-eval-javascript="script.js-164"></div>
 </div></div>
 </div>
