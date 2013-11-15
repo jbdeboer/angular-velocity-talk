@@ -14,5 +14,5 @@ var app = express()
 console.log('Listening on http://localhost:3000/ for ' + __dirname);
 
 function slowness(req, res, next) {
-  setTimeout(function() { next(); }, 1700);
+  setTimeout(function() { next(); }, 3000);
 }
