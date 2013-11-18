@@ -3,6 +3,10 @@
 This is a fork of the Angular phonecat tutorial used as a live
 demo in the Angular Velocity talk.
 
+## Slides
+
+[Given at Dreamforce '13](https://docs.google.com/presentation/d/1WTjba7zctyhbs5ngjp_8EBrHHTiAlFA4d0WYZmbdmu4/edit#slide=id.g1442a30c_120)
+
 ## Setup
 
 For the talk, start two webservers:
