@@ -17,6 +17,20 @@ body {
   list-style: none;
 }
 
+.phones > .phone-listing > a {
+  font-size: 2.0em;
+}
+
+.phones > .phone-listing > p {
+  font-size: 2.0em;
+  line-height: 130%;
+}
+
+.row-fluid > .span2 {
+  font-size: 2.0em;
+  line-height: 150%;
+}
+
 .thumb {
   float: left;
   margin: -1em 1em 1.5em 0em;

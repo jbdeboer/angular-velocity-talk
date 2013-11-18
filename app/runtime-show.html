@@ -28,11 +28,9 @@
   </div>
 
   <button ng-click="shown = !shown">Add / Remove A List</button>
-  <div ng-if="shown">
+  <div ng-show="shown">
     <ul>
-      <li ng-repeat="letter in letters">
-        {{$index}}
-        <b>{{letter}}</b>
+      <li ng-repeat="letter in letters">{{$index}}<b>{{letter}}</b>
         ({{letter + $index}})
         <span ng-show="$index == 0">first item</span>
       </li>
@@ -44,6 +42,6 @@
   <div ng-click="ds = !ds">Total $digests: <b>{{!ds && $calls_$digest}}</b></div>
   <div>Dirty check loops: <b ng-bind="$digestLoops"></b></div>
   <div># of watchers: <b>{{$root.$numDigestWatchers}}</b></div>
-  <div>Last Cycle Time: <b id="timeStamp"></b>ms</div></div>
+  <div>Last Cycle Time: <b id="timeStamp"></b>ms</div>
 </div>
 </body>
